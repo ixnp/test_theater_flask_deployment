@@ -14,8 +14,7 @@ function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    fetchUser()
-    fetchProductions()
+  
     const fetchProductions = () => (
       fetch('/productions')
       .then(res => res.json())
@@ -35,6 +34,8 @@ function App() {
         }
       })
     )
+    fetchUser()
+    fetchProductions()
   },[])
 
  
