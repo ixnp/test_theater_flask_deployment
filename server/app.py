@@ -10,7 +10,6 @@ from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
 
 from flask_bcrypt import Bcrypt
-from models import db, Production, CastMember, User
 
 app = Flask(
     __name__, 
@@ -26,6 +25,8 @@ app.json.compact = False
 
 CORS(app) 
 bcrypt = Bcrypt(app)
+from models import db, Production, CastMember, User
+
 
 migrate = Migrate(app, db)
 db.init_app(app)
@@ -35,7 +36,7 @@ db.init_app(app)
 @app.route('/<int:id>')
 def index(id=0):
     return render_template("index.html")
-    
+
 api = Api(app)
 class Productions(Resource):
     def get(self):
@@ -165,14 +166,15 @@ api.add_resource(Logout, '/logout', endpoint='logout')
 
 class AuthorizedSession(Resource):
     def get(self):
-        user = User.query.filter_by(id=session['user_id']).first()
-        if user:
-            response = make_response(
-                user.to_dict(),
-                200
-            )
-            return response
-        else:
+        try:
+            user = User.query.filter_by(id=session['user_id']).first()
+            if user:
+                response = make_response(
+                    user.to_dict(),
+                    200
+                )
+                return response
+        except:
             abort(401, "Unauthorized")
 api.add_resource(AuthorizedSession, '/authorized')
 
