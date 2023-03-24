@@ -7,21 +7,17 @@ function ProductionDetail() {
   const [error, setError] = useState(null)
   
   const params = useParams()
+  let url = `/productions/${params.id}`
   useEffect(()=>{
-    
-    const fetchProductions = () => {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-
-      fetch(`/productions/${params.id}`)
-      .then(res => { 
-        if(res.ok){
-          res.json().then(data => setProduction(data))
-        } else {
-          res.json().then(data => setError(data.error))
-        }
-      })
-    }
-    fetchProductions()
+    fetch(url)
+    .then(res => { 
+      if(res.ok){
+        res.json().then(data => setProduction(data))
+      } else {
+        res.json().then(data => setError(data.error))
+      }
+    })
+  
   },[])
 
   
