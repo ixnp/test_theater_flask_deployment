@@ -1,5 +1,8 @@
 import os
-# 1.✅ Import render_template
+# 1.✅ import dotenv
+from dotenv import load_dotenv
+load_dotenv()
+# 2.✅ Import render_template
 from flask import Flask, request, make_response, session, jsonify, abort, render_template
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
@@ -7,34 +10,32 @@ from werkzeug.exceptions import NotFound, Unauthorized
 from flask_cors import CORS
 
 from flask_bcrypt import Bcrypt
-
-from dotenv import load_dotenv
-load_dotenv()
-
-
-
-app = Flask(__name__, static_url_path='', static_folder='../client/build', template_folder='../client/build')
-CORS(app) 
-bcrypt = Bcrypt(app)
-#app.secret_key = os.environ.get(SESSION_KEY)
 from models import db, Production, CastMember, User
 
+app = Flask(
+    __name__, 
+    static_url_path='',
+    static_folder='../client/build', 
+    template_folder='../client/build')
+
+#app.secret_key = os.environ.get(SESSION_KEY)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.json.compact = False
 
-
+CORS(app) 
+bcrypt = Bcrypt(app)
 
 migrate = Migrate(app, db)
 db.init_app(app)
-
 
 
 @app.route('/')
 @app.route('/<int:id>')
 def index(id=0):
     return render_template("index.html")
+    
 api = Api(app)
 class Productions(Resource):
     def get(self):
