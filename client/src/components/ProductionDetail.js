@@ -8,14 +8,20 @@ function ProductionDetail() {
   
   const params = useParams()
   useEffect(()=>{
-    fetch(`/productions/${params.id}`)
-    .then(res => { 
-      if(res.ok){
-        res.json().then(data => setProduction(data))
-      } else {
-        res.json().then(data => setError(data.error))
-      }
-    })
+    
+    const fetchProductions = () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+
+      fetch(`/productions/${params.id}`)
+      .then(res => { 
+        if(res.ok){
+          res.json().then(data => setProduction(data))
+        } else {
+          res.json().then(data => setError(data.error))
+        }
+      })
+    }
+    fetchProductions()
   },[])
 
   
