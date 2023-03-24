@@ -7,9 +7,8 @@ function ProductionDetail() {
   const [error, setError] = useState(null)
   
   const params = useParams()
-  let url = `/productions/${params.id}`
   useEffect(()=>{
-    fetch(url)
+    fetch(`/productions/${params.id}`)
     .then(res => { 
       if(res.ok){
         res.json().then(data => setProduction(data))
@@ -17,7 +16,7 @@ function ProductionDetail() {
         res.json().then(data => setError(data.error))
       }
     })
-  
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
   
