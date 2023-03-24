@@ -13,7 +13,7 @@ function ProductionCard({production}) {
             <p>{genre}</p>
             <p>$ {budget}</p>
           </div>
-          <img src={image}/>
+          <img alt={title} src={image}/>
         </Link>
       </Card>
      

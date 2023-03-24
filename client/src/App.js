@@ -15,28 +15,29 @@ function App() {
 
   useEffect(() => {
     fetchUser()
+    fetchProductions()
+    const fetchProductions = () => (
+      fetch('/productions')
+      .then(res => res.json())
+      .then(setProductions)
+    )
+  
+    const fetchUser = () => (
+      fetch('/authorized')
+      .then(res => {
+        if(res.ok){
+          res.json()
+          .then(data => {
+            setUser(data)
+          })
+        } else {
+          setUser(null)
+        }
+      })
+    )
   },[])
 
-  const fetchProductions = () => (
-    fetch('/productions')
-    .then(res => res.json())
-    .then(setProductions)
-  )
-
-  const fetchUser = () => (
-    fetch('/authorized')
-    .then(res => {
-      if(res.ok){
-        res.json()
-        .then(data => {
-          setUser(data)
-          fetchProductions()
-        })
-      } else {
-        setUser(null)
-      }
-    })
-  )
+ 
  
   const addProduction = (production) => setProductions(current => [...current,production])
   

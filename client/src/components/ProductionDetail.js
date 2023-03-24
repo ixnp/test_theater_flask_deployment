@@ -1,4 +1,4 @@
-import  {useParams, useHistory } from 'react-router-dom'
+import  {useParams } from 'react-router-dom'
 import {useEffect, useState} from 'react'
 import styled from 'styled-components'
 
@@ -7,7 +7,6 @@ function ProductionDetail() {
   const [error, setError] = useState(null)
   
   const params = useParams()
-  const history = useHistory()
   useEffect(()=>{
     fetch(`/productions/${params.id}`)
     .then(res => { 
@@ -36,7 +35,7 @@ function ProductionDetail() {
                 {crew_members.map(crew => <li>{`${crew.role} : ${crew.name}`}</li>)}
               </ul>
             </div>
-            <img src={image}/>
+            <img alt={title} src={image}/>
           </div>
       <button >Buy Ticket</button>
       </CardDetail>
